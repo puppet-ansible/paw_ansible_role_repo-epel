@@ -38,31 +38,31 @@ class paw_ansible_role_repo_epel (
 # Execute the Ansible role using PAR (Puppet Ansible Runner)
 # Playbook synced via pluginsync to agent's cache directory
 # Check for common paw::par_vardir setting, then module-specific, then default
-$_par_vardir = $par_vardir ? {
-  undef   => lookup('paw::par_vardir', Stdlib::Absolutepath, 'first', '/opt/puppetlabs/puppet/cache'),
-  default => $par_vardir,
-}
-$playbook_path = "${_par_vardir}/lib/puppet_x/ansible_modules/ansible_role_repo_epel/playbook.yml"
+  $_par_vardir = $par_vardir ? {
+    undef   => lookup('paw::par_vardir', Stdlib::Absolutepath, 'first', '/opt/puppetlabs/puppet/cache'),
+    default => $par_vardir,
+  }
+  $playbook_path = "${_par_vardir}/lib/puppet_x/ansible_modules/ansible_role_repo_epel/playbook.yml"
 
-par { 'paw_ansible_role_repo_epel-main':
-  ensure        => present,
-  playbook      => $playbook_path,
-  playbook_vars => {
-        'epel_repo_url' => $epel_repo_url,
-        'epel_repo_gpg_key_url' => $epel_repo_gpg_key_url,
-        'epel_repofile_path' => $epel_repofile_path,
-        'epel_repo_disable' => $epel_repo_disable
-              },
-  tags          => $par_tags,
-  skip_tags     => $par_skip_tags,
-  start_at_task => $par_start_at_task,
-  limit         => $par_limit,
-  verbose       => $par_verbose,
-  check_mode    => $par_check_mode,
-  timeout       => $par_timeout,
-  user          => $par_user,
-  env_vars      => $par_env_vars,
-  logoutput     => $par_logoutput,
-  exclusive     => $par_exclusive,
-}
+  par { 'paw_ansible_role_repo_epel-main':
+    ensure        => present,
+    playbook      => $playbook_path,
+    playbook_vars => {
+      'epel_repo_url'         => $epel_repo_url,
+      'epel_repo_gpg_key_url' => $epel_repo_gpg_key_url,
+      'epel_repofile_path'    => $epel_repofile_path,
+      'epel_repo_disable'     => $epel_repo_disable,
+    },
+    tags          => $par_tags,
+    skip_tags     => $par_skip_tags,
+    start_at_task => $par_start_at_task,
+    limit         => $par_limit,
+    verbose       => $par_verbose,
+    check_mode    => $par_check_mode,
+    timeout       => $par_timeout,
+    user          => $par_user,
+    env_vars      => $par_env_vars,
+    logoutput     => $par_logoutput,
+    exclusive     => $par_exclusive,
+  }
 }
